@@ -18,6 +18,8 @@ screen.textContent = '0'
 const digits = document.querySelector('.digits')
 const operators = document.querySelector('.operators')
 
+const buttons = document.querySelector('.buttons'); // ← al posto di digits e operators
+
 function prepareDigits() {
     digits.addEventListener('click', (e) => {
         if (e.target.tagName === 'BUTTON') {
@@ -201,9 +203,47 @@ function updateScreen(value) {
 
 }
 
+function prepareKeyboard() {
+
+    document.addEventListener('keydown', (e) => {
+        const key = e.key;
+
+        const keyMap = {
+            '+': 'plus',
+            '-': 'minus',
+            '*': 'times',
+            '/': 'divide',
+            'Enter': 'equal',
+            'Delete': 'clear',
+            'Backspace': 'cancel',
+        };
+
+        // Operatori
+        if (keyMap[key]) {
+            buttons.querySelector(`.${keyMap[key]}`)?.click();
+            return;
+        }
+
+        // Virgola/punto
+        if (key === ',' || key === '.') {
+            buttons.querySelector('.comma')?.click();
+            return;
+        }
+
+        // Cifre 0-9
+        if (/^[0-9]$/.test(key)) {
+            const btn = [...buttons.querySelectorAll('button')]
+                .find(b => b.textContent.trim() === key);
+            btn?.click();
+        }
+    });
+
+}
+
 function main() {
     prepareDigits()
     prepareOperators()
+    prepareKeyboard()
 }
 
 main();
