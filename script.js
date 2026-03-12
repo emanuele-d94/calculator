@@ -32,8 +32,17 @@ function prepareDigits() {
             }
 
             if (isFirstDigit) {
-                // comma
-                if(e.target.className === 'comma'){
+                if(e.target.className === 'cancel'){
+                    if(num1.length > 0){
+                        num1 = num1.slice(0,-1);
+                        if(num1.length === 0){
+                            num1 = '0';
+                        }
+                        // Verifico se ho rimosso la virgola
+                        hasFirstDigitComma = num1.includes('.');
+                        updateScreen(num1)
+                    }
+                } else if(e.target.className === 'comma'){
                     if(num1.length > 0 && !hasFirstDigitComma){
                         num1 = num1.concat(e.target.textContent);
                         hasFirstDigitComma = true
@@ -53,8 +62,17 @@ function prepareDigits() {
                     }
                 }
             } else if (isSecondDigit) {
-                // comma
-                if(e.target.className === 'comma'){
+                if(e.target.className === 'cancel'){
+                    if(num2.length > 0){
+                        num2 = num2.slice(0,-1);
+                        if(num2.length === 0){
+                            num2 = '0';
+                        }
+                        // Verifico se ho rimosso la virgola
+                        hasSecondDigitComma = num2.includes('.');
+                        updateScreen(num2)
+                    }
+                } else if(e.target.className === 'comma'){
                     if(num2.length > 0 && !hasSecondDigitComma){
                         num2 = num2.concat(e.target.textContent);
                         hasSecondDigitComma = true
