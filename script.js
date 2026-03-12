@@ -1,6 +1,6 @@
 screenMaxLength = 15;
 
-let num1 = '';
+let num1 = '0';
 let num2 = '';
 let result = '';
 let operator = '';
@@ -9,6 +9,9 @@ let isFirstDigit = true
 let isSecondDigit = false
 let isOperator = false
 let enableOperators = false
+
+let hasFirstDigitComma = false
+let hasSecondDigitComma = false
 
 const screen = document.querySelector('.screen-number')
 screen.textContent = '0'
@@ -20,33 +23,51 @@ function prepareDigits() {
         if (e.target.tagName === 'BUTTON') {
 
             enableOperators = true
-
             isOperator = false;
-            if(num1 !== '' && !isFirstDigit){
+            if (num1 !== '' && !isFirstDigit) {
                 isSecondDigit = true;
             }
-            if(num2 !== '' && !isSecondDigit){
+            if (num2 !== '' && !isSecondDigit) {
                 isFirstDigit = true;
             }
 
-            if(isFirstDigit) {
-                if(e.target.className ==='zero' && (num1 === '' || num1 === '0')){
-                }  else {
+            if (isFirstDigit) {
+                // comma
+                if(e.target.className === 'comma'){
+                    if(num1.length > 0 && !hasFirstDigitComma){
+                        num1 = num1.concat(e.target.textContent);
+                        hasFirstDigitComma = true
+                        updateScreen(num1)
+                    }
+                } else {
+                    // no doppi zeri all'inizio
+                    if (num1 === '0') {
+                        num1 = '';
+                    }
                     isSecondDigit = false;
                     isOperator = false;
                     console.log(e.target.textContent);
-                    if(num1.length < screenMaxLength){
+                    if (num1.length < screenMaxLength) {
                         num1 = num1.concat(e.target.textContent);
+                        updateScreen(num1)
                     }
-                    updateScreen(num1)
                 }
-            } else if(isSecondDigit) {
-                if(e.target.className ==='zero' && (num2 === '' || num2 === '0')){
-                }  else {
+            } else if (isSecondDigit) {
+                // comma
+                if(e.target.className === 'comma'){
+                    if(num2.length > 0 && !hasSecondDigitComma){
+                        num2 = num2.concat(e.target.textContent);
+                        hasSecondDigitComma = true
+                        updateScreen(num2)
+                    }
+                } else {
+                    if (num2 === '0') {
+                        num2 = '';
+                    }
                     isFirstDigit = false;
                     isOperator = false;
                     console.log(e.target.textContent);
-                    if(num2.length < screenMaxLength){
+                    if (num2.length < screenMaxLength) {
                         num2 = num2.concat(e.target.textContent);
                     }
                     updateScreen(num2)
@@ -61,15 +82,15 @@ function prepareOperators() {
     operators.addEventListener('click', (e) => {
         if (e.target.tagName === 'BUTTON') {
 
-            if(enableOperators){
+            if (enableOperators) {
 
                 isOperator = true;
                 isFirstDigit = false;
                 isSecondDigit = false;
 
-                switch (e.target.className){
+                switch (e.target.className) {
                     case 'equal':
-                        if(num1 !== '' && num2 !== ''){
+                        if (num1 !== '' && num2 !== '') {
                             doTheMath()
                         }
                         break;
@@ -77,9 +98,9 @@ function prepareOperators() {
                         clearScreen()
                         break;
                     default:
-                        if(num1 !== '' && num2 !== ''){
+                        if (num1 !== '' && num2 !== '') {
                             doTheMath()
-                        } else{
+                        } else {
                             operator = e.target.className;
                             updateScreen(e.target.textContent);
                         }
@@ -99,6 +120,8 @@ function clearScreen() {
     isSecondDigit = false;
     isOperator = false;
     enableOperators = false;
+    hasFirstDigitComma = false;
+    hasSecondDigitComma = false;
     updateScreen('0')
 }
 
@@ -106,51 +129,36 @@ function doTheMath() {
 
     switch (operator) {
         case 'plus':
-            result = (parseInt(num1) + parseInt(num2)).toString().substring(0,15);
+            result = (parseFloat(num1) + parseFloat(num2)).toString().substring(0, 15);
             updateScreen(result);
-            num1 = result;
-            num2 = '';
-            isFirstDigit = false;
-            isSecondDigit = true;
-            isOperator = false;
             break;
         case 'minus':
-            result = (parseInt(num1) - parseInt(num2)).toString().substring(0,15);
-            updateScreen(result);
-            num1 = result;
-            num2 = '';
-            isFirstDigit = false;
-            isSecondDigit = true;
-            isOperator = false;
+            result = (parseFloat(num1) - parseFloat(num2)).toString().substring(0, 15);
             break;
         case 'times':
-            result = (parseInt(num1) * parseInt(num2)).toString().substring(0,15);
-            updateScreen(result);
-            num1 = result;
-            num2 = '';
-            isFirstDigit = false;
-            isSecondDigit = true;
-            isOperator = false;
+            result = (parseFloat(num1) * parseFloat(num2)).toString().substring(0, 15);
             break;
         case 'divide':
-            result = (parseInt(num1) / parseInt(num2)).toString().substring(0,15);
-            updateScreen(result);
-            num1 = result;
-            num2 = '';
-            isFirstDigit = false;
-            isSecondDigit = true;
-            isOperator = false;
+            result = (parseFloat(num1) / parseFloat(num2)).toString().substring(0, 15);
             break;
     }
+    updateScreen(result);
+    num1 = result;
+    num2 = '';
+    isFirstDigit = false;
+    isSecondDigit = true;
+    isOperator = false;
+    hasFirstDigitComma = false;
+    hasSecondDigitComma = false;
 }
 
 function updateScreen(value) {
     screen.textContent = value;
 
-    console.log('num1',num1);
-    console.log('num2',num2);
-    console.log('operator',operator);
-    console.log('result',result);
+    console.log('num1', num1);
+    console.log('num2', num2);
+    console.log('operator', operator);
+    console.log('result', result);
 
 }
 

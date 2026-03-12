@@ -31,7 +31,7 @@
 
 .screen{
     flex: 1;
-    margin: 0 36px;
+    margin: 24px 36px;
     padding: 0 36px 36px 36px;
     border: solid 4px black;
     border-radius: 10px;
@@ -101,4 +101,8 @@
     color: darkred;
     border: solid 4px darkred;
     width: auto;
+}
+
+.empty{
+    visibility:hidden;
 }
