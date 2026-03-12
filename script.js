@@ -100,6 +100,7 @@ function prepareOperators() {
                     default:
                         if (num1 !== '' && num2 !== '') {
                             doTheMath()
+                            operator = e.target.className;
                         } else {
                             operator = e.target.className;
                             updateScreen(e.target.textContent);
@@ -129,17 +130,17 @@ function doTheMath() {
 
     switch (operator) {
         case 'plus':
-            result = (parseFloat(num1) + parseFloat(num2)).toString().substring(0, 15);
+            result = (parseFloat(num1) + parseFloat(num2)).toPrecision(10);
             updateScreen(result);
             break;
         case 'minus':
-            result = (parseFloat(num1) - parseFloat(num2)).toString().substring(0, 15);
+            result = (parseFloat(num1) - parseFloat(num2)).toPrecision(10);
             break;
         case 'times':
-            result = (parseFloat(num1) * parseFloat(num2)).toString().substring(0, 15);
+            result = (parseFloat(num1) * parseFloat(num2)).toPrecision(10);
             break;
         case 'divide':
-            result = (parseFloat(num1) / parseFloat(num2)).toString().substring(0, 15);
+            result = (parseFloat(num1) / parseFloat(num2)).toPrecision(10);
             break;
     }
     updateScreen(result);
