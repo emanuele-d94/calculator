@@ -130,17 +130,37 @@ function doTheMath() {
 
     switch (operator) {
         case 'plus':
-            result = (parseFloat(num1) + parseFloat(num2)).toPrecision(2);
+            result = (parseFloat(num1) + parseFloat(num2))
+                if(result.toString().length <= 15) {
+                    result = result.toString().substring(0,15);
+                } else {
+                    result = result.toPrecision(10)
+                }
             updateScreen(result);
             break;
         case 'minus':
-            result = (parseFloat(num1) - parseFloat(num2)).toPrecision(2);
+            result = (parseFloat(num1) - parseFloat(num2))
+            if(result.toString().length <= 15) {
+                result = result.toString().substring(0,15);
+            } else {
+                result = result.toPrecision(10)
+            }
             break;
         case 'times':
-            result = (parseFloat(num1) * parseFloat(num2)).toPrecision(2);
+            result = (parseFloat(num1) * parseFloat(num2))
+            if(result.toString().length <= 15) {
+                result = result.toString().substring(0,15);
+            } else {
+                result = result.toPrecision(10)
+            }
             break;
         case 'divide':
-            result = (parseFloat(num1) / parseFloat(num2)).toPrecision(2);
+            result = (parseFloat(num1) / parseFloat(num2))
+            if(result.toString().length <= 15) {
+                result = result.toString().substring(0,15);
+            } else {
+                result = result.toPrecision(10)
+            }
             break;
     }
     updateScreen(result);
